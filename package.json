@@ -12,7 +12,6 @@
     "dev": "nodemon uiserver",
     "start": "node uiserver",
     "build": "webpack --mode production",
-    "i want something just liket his": "d",
     "heroku-postbuild": "npm run build"
   },
   "keywords": [
