@@ -1,0 +1,129 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    font-size: 2vw;
+}
+
+body {
+    background-color: rgb(46, 46, 46);
+    color: #fff;
+}
+
+body h1 {
+    font-size: 2rem;
+}
+
+body a {
+    color: #fff;
+}
+
+.store .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 .5rem;
+}
+
+.store .header .cart .material-icons a {
+    color: #fff;
+    display: inline-block;
+}
+
+.preloader-wrapper {
+    display: flex;
+    margin: 0 auto;
+}
+
+.goods-card {
+    margin-top: 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.goods-card .info h2 {
+    font-size: 3vw;
+    margin: 1rem 0;
+}
+
+.goods-card .info .cost {
+    font-size: .75rem;
+}
+
+.goods-card .info label {
+    font-size: .5rem;
+}
+
+.goods-card .addToCart {
+    display: flex;
+    align-items: center;
+    font-size: .75rem;
+    padding: 1rem .75rem 1rem 0;
+}
+
+.goods-card .addToCart .material-icons {
+    margin: 0 .5rem;
+}
+
+.cart {
+    font-size: 1rem;
+}
+
+.cart h2 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.cart .cartItem-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.cart .cartItem-card + .cartItem-card {
+    margin-top: 5vw;
+}
+
+.cart .cartItem-card .add-substract {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart .cartItem-card .add-substract .amount {
+    margin: 0 auto;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cart .amount .disabled {
+    pointer-events: none;
+    opacity: .5;
+}
+
+@media (max-width: 750px) and (min-width: 701px) {
+    :root {
+        font-size: calc(1rem * 1.5);
+    }
+}
+
+@media (max-width: 700px) {
+    :root {
+        font-size: calc(1rem * 2.5);
+    }
+    .goods-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    .goods-card .product-title {
+        font-size: 3rem;
+    }
+    .goods-card .addToCart {
+        padding: 2.5vw 1rem 2.5vw 0;
+    }
+}
