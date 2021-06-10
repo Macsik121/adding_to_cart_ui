@@ -10,7 +10,7 @@
   "scripts": {
     "watch": "webpack --watch",
     "dev": "nodemon uiserver",
-    "start": "node -r dotenv/config uiserver.js",
+    "start": "node uiserver.js",
     "build": "webpack --mode production",
     "heroku-postbuild": "npm run build"
   },
