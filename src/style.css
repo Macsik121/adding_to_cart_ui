@@ -17,15 +17,52 @@ body h1 {
     font-size: 2rem;
 }
 
+body h2 {
+    font-size: 1.5rem;
+}
+
 body a {
     color: #fff;
 }
 
 .store .header {
+    padding-top: 2rem;
+}
+
+.store .header .nav {
+    background: none;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     padding: 0 .5rem;
+    box-shadow: none;
+}
+
+.store .header .nav h1 {
+    margin: 0;
+}
+
+.store .header .nav .account {
+    display: flex;
+}
+
+.store .header .nav .account .cart {
+    display: flex;
+    margin-right: 30px;
+    position: relative;
+}
+
+.store .header .nav .account .cart .cart-icon {
+    font-size: 3rem;
+}
+
+.store .header .nav .account .cart .amount-item-in-cart {
+    font-size: .9rem;
+    position: absolute;
+    left: 100%;
+    top: 45%;
+    pointer-events: none;
+    user-select: none;
 }
 
 .store .header .cart .material-icons a {
@@ -36,6 +73,46 @@ body a {
 .preloader-wrapper {
     display: flex;
     margin: 0 auto;
+}
+
+.login h2 {
+    text-align: center;
+}
+
+.login form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.login form input {
+    color: #fff;
+}
+
+.login form label {
+    transform: translateY(-16px);
+}
+
+.signup h2 {
+    text-align: center;
+}
+
+.signup form {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.signup form input {
+    color: #fff;
+}
+
+.signup form label {
+    transform: translateY(-20px);
 }
 
 .goods-card {
@@ -105,16 +182,22 @@ body a {
     pointer-events: none;
     opacity: .5;
 }
-
+/* 
 @media (max-width: 750px) and (min-width: 701px) {
     :root {
         font-size: calc(1rem * 1.5);
     }
-}
+} */
 
 @media (max-width: 700px) {
     :root {
-        font-size: calc(1rem * 2.5);
+        font-size: calc(1rem * 2);
+    }
+    .store .header .nav {
+        flex-direction: column;
+    }
+    .store .signup form {
+        width: 80%;
     }
     .goods-card {
         flex-direction: column;

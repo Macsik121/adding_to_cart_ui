@@ -1,28 +1,20 @@
 import React from 'react';
-import fetchData from './fetchData';
-import Card from './Card.jsx';
+import CartItem from './CartItem.jsx';
 
-class Store extends React.Component {
+export default class Cart extends React.Component {
     constructor() {
         super();
+        this.loadCart = this.loadCart.bind(this);
+        this.addToCart = this.addToCart.bind(this);
         this.state = {
-            goods: [],
             cart: [],
             isLoading: true
         };
-        this.addToCart = this.addToCart.bind(this);
-        this.loadCart = this.loadCart.bind(this);
-        this.loadGoods = this.loadGoods.bind(this);
     }
-    async componentDidMount() {
-        await fetch('query');
-        this.loadGoods();
+    componentDidMount() {
+        this.loadCart();
     }
-    async loadCart(button) {
-        if (button) {
-            button.classList.remove('add');
-            button.classList.add('disabled')
-        }
+    async loadCart(span) {
         const query = `
             query {
                 cart {
@@ -31,6 +23,7 @@ class Store extends React.Component {
                     cost
                     amount
                     inCart
+                    totalCost
                 }
             }
         `;
@@ -43,51 +36,19 @@ class Store extends React.Component {
 
         const result = await res.json();
         this.setState({cart: result.data.cart})
-
-        
-        if (button) {
-            button.classList.remove('disabled');
-            button.classList.add('enabled');
-        }
-    }
-    async loadGoods(button) {
-        if (button) {
-            button.classList.remove('enabled');
-            button.classList.add('disabled');
-        }
-
-        const query = `
-            query {
-                goods {
-                    id
-                    title
-                    cost
-                    amount
-                }
-            }
-        `;
-
-        const res = await fetch(API_SERVER_ADDRESS, {
-            method: 'POST',
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify({query})
-        });
-        const result = await res.json();
-        this.setState({goods: result.data.goods});
-
         this.setState({isLoading: false});
 
-        if (button) {
-            button.classList.remove('disabled');
-            button.classList.add('enabled');
-        }
+        span ? span.classList.remove('disabled') : '';
     }
-    async addToCart(e, button) {
-        button.classList.add('disabled');
+    async addToCart(e) {
+        if (e.target) {
+            e.target.classList.remove('enabled');
+            e.target.classList.add('disabled');
+        }
 
-        const id = +e.childNodes[0].textContent;
-        const title = e.childNodes[1].textContent;
-        const cost = +e.childNodes[2].childNodes[1].textContent;
+        const id = +e.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[0].textContent;
+        const title = e.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[1].textContent;
+        const cost = +e.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[2].childNodes[1].textContent;
 
         const goodsToAdd = {
             id,
@@ -114,25 +75,30 @@ class Store extends React.Component {
             body: JSON.stringify({query: mutation, variables: {goods: goodsToAdd}})
         });
 
-        this.loadCart(button);
+        this.loadCart(e.target);
+
+        if (e.target) {
+            e.target.classList.remove('disabled');
+            e.target.classList.add('enabled');
+        }
     }
     render() {
-        const cards = this.state.goods.map(product => {
+        const cart = this.state.cart.map(cartItem => {
             return (
-                <Card
-                    product={product}
-                    key={product.id}
+                <CartItem
+                    cartItem={cartItem}
                     addToCart={this.addToCart}
+                    key={cartItem.id}
                 />
             )
         });
         return (
-            <div className="cards">
+            <div className="cart">
                 {
                     this.state.isLoading
                     &&
                     <div className="preloader-wrapper big active">
-                        <div className="spinner-layer spinner-green-only">
+                        <div className="spinner-layer spinner-blue-only">
                             <div className="circle-clipper left">
                                 <div className="circle"></div>
                             </div><div className="gap-patch">
@@ -143,10 +109,11 @@ class Store extends React.Component {
                         </div>
                     </div>
                 }
-                {cards}
+                {cart}
+                <div className="finalCost">
+                    
+                </div>
             </div>
         )
     }
 }
-
-export default Store;

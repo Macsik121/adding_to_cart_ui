@@ -1,10 +1,11 @@
 require('dotenv').config();
 const path = require('path');
 const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 
-module.exports = {
+const browserConfig = {
     mode: 'development',
-    entry: { app: ['./src/App.jsx'] },
+    entry: { app: './browser/App.jsx' },
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'public')
@@ -13,8 +14,25 @@ module.exports = {
         rules: [
             {
                 test: /\.jsx?$/,
-                use: 'babel-loader',
-                exclude: '/node_modules/'
+                exclude: '/node_modules/',
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                '@babel/preset-react',
+                                ['@babel/preset-env', {
+                                    targets: {
+                                        "edge": "17",
+                                        "firefox": "60",
+                                        "chrome": "67",
+                                        "safari": "11.1"
+                                    }
+                                }]
+                            ]
+                        }
+                    }
+                ]
             },
             {
                 test: /\.css$/,
@@ -34,3 +52,46 @@ module.exports = {
         }
     }
 }
+
+const serverConfig = {
+    mode: 'development',
+    entry: { server: './server/uiserver.js' },
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].js'
+    },
+    target: 'node',
+    externals: [nodeExternals()],
+    module: {
+        rules: [
+            {
+                test: /\.jsx?$/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                '@babel/preset-react',
+                                ['@babel/preset-env', {
+                                    targets: {
+                                        "edge": "17",
+                                        "firefox": "60",
+                                        "chrome": "67",
+                                        "safari": "11.1"
+                                    }
+                                }]    
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            API_SERVER_ADDRESS: `'${process.env.API_SERVER_ADDRESS}'`
+        })
+    ],
+};
+
+module.exports = [browserConfig, serverConfig];
